@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Uno.Disposables;
 using Uno.Material.Samples.Content.Controls;
 using Uno.Material.Samples.Content.Styles;
+using Uno.Material.Samples.Helpers;
 using Uno.Material.Samples.Shared.Content.Extensions;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -212,6 +213,32 @@ namespace Uno.Material.Samples
 			if (NestedSampleFrame.Navigate(typeof(TPage)) && clearStack)
 			{
 				NestedSampleFrame.BackStack.Clear();
+			}
+		}
+		private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+		{
+			// Set theme for window root.
+			if (global::Windows.UI.Xaml.Window.Current.Content is FrameworkElement root)
+			{
+				switch (root.ActualTheme)
+				{
+					case ElementTheme.Default:
+						if (SystemThemeHelper.GetSystemApplicationTheme() == ApplicationTheme.Dark)
+						{
+							root.RequestedTheme = ElementTheme.Light;
+						}
+						else
+						{
+							root.RequestedTheme = ElementTheme.Dark;
+						}
+						break;
+					case ElementTheme.Light:
+						root.RequestedTheme = ElementTheme.Dark;
+						break;
+					case ElementTheme.Dark:
+						root.RequestedTheme = ElementTheme.Light;
+						break;
+				}
 			}
 		}
 
